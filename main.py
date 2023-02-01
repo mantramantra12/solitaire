@@ -53,11 +53,13 @@ class Board:
         moves = self.list_moves()
         for move in moves:
             self.make_move(move)
+            self.move_stack.append(move)
             self.print()
             input()
             if self.solve():
                 return True
             self.undo_move(move)
+            self.move_stack.pop()
         return False
 
     def is_solved(self):
@@ -82,7 +84,6 @@ class Board:
             self.board[move[0]][move[1]] = 0
             self.board[move[0]][move[1]-1] = 0
             self.board[move[0]][move[1]-2] = 1
-        self.move_stack.append(move)
 
     def undo_move(self, move):
         if move[2] == "up":
@@ -101,7 +102,6 @@ class Board:
             self.board[move[0]][move[1]] = 1
             self.board[move[0]][move[1]-1] = 1
             self.board[move[0]][move[1]-2] = 0
-        self.move_stack.pop()
 
     def replay_solve(self):
         self.setup()
@@ -109,6 +109,7 @@ class Board:
         for move in self.move_stack:
             self.make_move(move)
             self.print()
+            print("\n\n")
 
 
 def main():
