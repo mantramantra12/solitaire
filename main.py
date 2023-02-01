@@ -54,8 +54,6 @@ class Board:
         for move in moves:
             self.make_move(move)
             self.move_stack.append(move)
-            self.print()
-            input()
             if self.solve():
                 return True
             self.undo_move(move)
@@ -109,7 +107,7 @@ class Board:
         for move in self.move_stack:
             self.make_move(move)
             self.print()
-            print("\n\n")
+            input("\n\n")
 
 
 def main():
