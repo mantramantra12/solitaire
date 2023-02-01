@@ -53,6 +53,8 @@ class Board:
         moves = self.list_moves()
         for move in moves:
             self.make_move(move)
+            self.print()
+            input()
             if self.solve():
                 return True
             self.undo_move(move)
