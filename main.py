@@ -1,4 +1,4 @@
-
+from copy import deepcopy
 
 
 class Board:
@@ -53,11 +53,9 @@ class Board:
         moves = self.list_moves()
         for move in moves:
             self.make_move(move)
-            self.move_stack.append(move)
             if self.solve():
                 return True
             self.undo_move(move)
-            self.move_stack.pop()
         return False
 
     def is_solved(self):
@@ -66,6 +64,7 @@ class Board:
         return False
 
     def make_move(self, move):
+        self.move_stack.append(move)
         if move[2] == "up":
             self.board[move[0]][move[1]] = 0
             self.board[move[0]-1][move[1]] = 0
@@ -84,6 +83,7 @@ class Board:
             self.board[move[0]][move[1]-2] = 1
 
     def undo_move(self, move):
+        self.move_stack.pop()
         if move[2] == "up":
             self.board[move[0]][move[1]] = 1
             self.board[move[0]-1][move[1]] = 1
@@ -104,10 +104,11 @@ class Board:
     def replay_solve(self):
         self.setup()
         self.print()
-        for move in self.move_stack:
+        stack = deepcopy(self.move_stack)
+        for move in stack:
+            input("\n\n")
             self.make_move(move)
             self.print()
-            input("\n\n")
 
 
 def main():
