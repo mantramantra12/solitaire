@@ -6,9 +6,14 @@ class Board:
         self.board = []
         self.chars = ("-", "X", "O")
         self.move_stack = []
+        self.solutions = 0
+        self.games = 0
         self.setup()
 
     def setup(self):
+        self.solutions = 0
+        self.games = 0
+        self.move_stack = []
         self.board = [
             [-1, -1, 1, 1, 1, -1, -1],
             [-1, -1, 1, 1, 1, -1, -1],
@@ -48,9 +53,12 @@ class Board:
             return True
 
     def solve(self):
-        if self.is_solved():
-            return True
         moves = self.list_moves()
+        if len(moves) == 0:
+            self.games += 1
+        if self.is_solved():
+            self.solutions += 1
+            return True
         for move in moves:
             self.make_move(move)
             if self.solve():
@@ -114,8 +122,9 @@ class Board:
 def main():
     game = Board()
     game.solve()
-    game.replay_solve()
-
+    # game.replay_solve()
+    print(f"Total games: {game.games}")
+    print(f"Winning games: {game.solutions}")
     
 
 if __name__ == "__main__":
