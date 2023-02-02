@@ -58,13 +58,10 @@ class Board:
             self.games += 1
         if self.is_solved():
             self.solutions += 1
-            return True
         for move in moves:
             self.make_move(move)
-            if self.solve():
-                return True
+            self.solve()
             self.undo_move(move)
-        return False
 
     def is_solved(self):
         if sum([sum(row) for row in self.board]) == -15:
